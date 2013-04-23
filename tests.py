@@ -20,8 +20,8 @@ class MaxipagoTestCase(unittest.TestCase):
 
         response = self.maxipago.customer.add(
             customer_id=CUSTOMER_ID,
-            first_name='Vinicius',
-            last_name='Cainelli',
+            first_name='Fulano',
+            last_name='de Tal',
         )
 
         self.assertTrue(getattr(response, 'id', False))
@@ -32,8 +32,8 @@ class MaxipagoTestCase(unittest.TestCase):
         # creating customer with random id.
         response = self.maxipago.customer.add(
             customer_id=CUSTOMER_ID,
-            first_name='Vinicius',
-            last_name='Cainelli',
+            first_name='Fulano',
+            last_name='de Tal',
         )
 
         self.assertTrue(hasattr(response, 'id'))
@@ -42,8 +42,8 @@ class MaxipagoTestCase(unittest.TestCase):
         with self.assertRaises(exceptions.CustomerAlreadyExists):
             response = self.maxipago.customer.add(
                 customer_id=CUSTOMER_ID,
-                first_name='Vinicius',
-                last_name='Cainelli',
+                first_name='Fulano',
+                last_name='de Tal',
             )
 
     def test_delete_customer(self):
@@ -52,8 +52,8 @@ class MaxipagoTestCase(unittest.TestCase):
         # creating customer with random id.
         response = self.maxipago.customer.add(
             customer_id=CUSTOMER_ID,
-            first_name='Vinicius',
-            last_name='Cainelli',
+            first_name='Fulano',
+            last_name='de Tal',
         )
 
         self.assertTrue(hasattr(response, 'id'))
@@ -70,8 +70,8 @@ class MaxipagoTestCase(unittest.TestCase):
         # creating customer with random id.
         response = self.maxipago.customer.add(
             customer_id=CUSTOMER_ID,
-            first_name=u'Vinicius',
-            last_name=u'Cainelli',
+            first_name=u'Fulano',
+            last_name=u'de Tal',
         )
 
         self.assertTrue(hasattr(response, 'id'))
@@ -89,8 +89,8 @@ class MaxipagoTestCase(unittest.TestCase):
 
         response = self.maxipago.customer.add(
             customer_id=CUSTOMER_ID,
-            first_name=u'Vinicius',
-            last_name=u'Cainelli',
+            first_name=u'Fulano',
+            last_name=u'de Tal',
         )
 
         self.assertTrue(hasattr(response, 'id'))
@@ -102,14 +102,14 @@ class MaxipagoTestCase(unittest.TestCase):
             number=u'4111111111111111',
             expiration_month=u'02',
             expiration_year=date.today().year + 3,
-            billing_name=u'Vinicius Cainelli',
+            billing_name=u'Fulano de Tal',
             billing_address1=u'Rua das Alamedas, 123',
-            billing_city=u'Ribeirão Preto',
-            billing_state=u'SP',
-            billing_zip=u'14030360',
+            billing_city=u'Rio de Janeiro',
+            billing_state=u'RJ',
+            billing_zip=u'20123456',
             billing_country=u'BR',
-            billing_phone=u'1612341234',
-            billing_email=u'me@vinicius.ca',
+            billing_phone=u'552140634666',
+            billing_email=u'fulano@detal.com',
         )
 
         self.assertTrue(getattr(response, 'token', False))
@@ -119,8 +119,8 @@ class MaxipagoTestCase(unittest.TestCase):
 
         customer_response = self.maxipago.customer.add(
             customer_id=CUSTOMER_ID,
-            first_name=u'Vinicius',
-            last_name=u'Cainelli',
+            first_name=u'Fulano',
+            last_name=u'de Tal',
         )
 
         self.assertTrue(hasattr(customer_response, 'id'))
@@ -132,14 +132,14 @@ class MaxipagoTestCase(unittest.TestCase):
             number=u'4111111111111111',
             expiration_month=u'02',
             expiration_year=date.today().year + 3,
-            billing_name=u'Vinicius Cainelli',
+            billing_name=u'Fulano de Tal',
             billing_address1=u'Rua das Alamedas, 123',
-            billing_city=u'Ribeirão Preto',
-            billing_state=u'SP',
-            billing_zip=u'14030360',
-            billing_country=u'BR',
-            billing_phone=u'1612341234',
-            billing_email=u'me@vinicius.ca',
+            billing_city=u'Rio de Janeiro',
+            billing_state=u'RJ',
+            billing_zip=u'20345678',
+            billing_country=u'RJ',
+            billing_phone=u'552140634666',
+            billing_email=u'fulano@detal.com',
         )
 
         self.assertTrue(getattr(card_response, 'token', False))
@@ -160,14 +160,14 @@ class MaxipagoTestCase(unittest.TestCase):
             processor_id=1,
             reference_num=REFERENCE,
 
-            billing_name=u'Vinicius Cainelli',
+            billing_name=u'Fulano de Tal',
             billing_address1=u'Rua das Alamedas, 123',
-            billing_city=u'Ribeirão Preto',
-            billing_state=u'SP',
-            billing_zip=u'14030360',
-            billing_country=u'BR',
-            billing_phone=u'1612341234',
-            billing_email=u'me@vinicius.ca',
+            billing_city=u'Rio de Janeiro',
+            billing_state=u'RJ',
+            billing_zip=u'20345678',
+            billing_country=u'RJ',
+            billing_phone=u'552140634666',
+            billing_email=u'fulano@detal.com',
 
             card_number='4111111111111111',
             card_expiration_month=u'02',
@@ -187,14 +187,14 @@ class MaxipagoTestCase(unittest.TestCase):
             processor_id=1,
             reference_num=REFERENCE,
 
-            billing_name=u'Vinicius Cainelli',
+            billing_name=u'Fulano de Tal',
             billing_address1=u'Rua das Alamedas, 123',
-            billing_city=u'Ribeirão Preto',
-            billing_state=u'SP',
-            billing_zip=u'14030360',
-            billing_country=u'BR',
-            billing_phone=u'1612341234',
-            billing_email=u'me@vinicius.ca',
+            billing_city=u'Rio de Janeiro',
+            billing_state=u'RJ',
+            billing_zip=u'20345678',
+            billing_country=u'RJ',
+            billing_phone=u'552140634666',
+            billing_email=u'fulano@detal.com',
 
             card_number='4111111111111111',
             card_expiration_month=u'02',
@@ -214,14 +214,14 @@ class MaxipagoTestCase(unittest.TestCase):
             processor_id=1,
             reference_num=REFERENCE,
 
-            billing_name=u'Vinicius Cainelli',
+            billing_name=u'Fulano de Tal',
             billing_address1=u'Rua das Alamedas, 123',
-            billing_city=u'Ribeirão Preto',
-            billing_state=u'SP',
-            billing_zip=u'14030360',
-            billing_country=u'BR',
-            billing_phone=u'1612341234',
-            billing_email=u'me@vinicius.ca',
+            billing_city=u'Rio de Janeiro',
+            billing_state=u'RJ',
+            billing_zip=u'20345678',
+            billing_country=u'RJ',
+            billing_phone=u'552140634666',
+            billing_email=u'fulano@detal.com',
 
             card_number='4111111111111111',
             card_expiration_month=u'02',
