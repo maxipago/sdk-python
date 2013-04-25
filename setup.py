@@ -26,11 +26,12 @@ setup(
     keywords='',
     url='',
     packages=['maxipago'],
-    long_description=read_file('README.rst'),
+    long_description=read_file('README.md'),
     classifiers=[
         "Topic :: Utilities",
     ],
     install_requires=[
         'requests==1.1.0',
+        'lxml==3.1.0',
     ],
 )
