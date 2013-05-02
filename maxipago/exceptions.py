@@ -29,3 +29,8 @@ class CardException(MaxipagoException):
 
 class PaymentException(MaxipagoException):
     pass
+
+
+#http
+class HttpErrorException(MaxipagoException):
+    pass
