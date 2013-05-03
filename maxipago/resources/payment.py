@@ -13,6 +13,10 @@ class PaymentResource(Resource):
         self.captured = False
 
         tree = etree.parse(StringIO(self.data))
+        error_code = tree.find('errorCode')
+        if error_code is not None and error_code != '0':
+            error_message = tree.find('errorMsg').text
+            raise PaymentException(message=error_message)
 
         processor_code = tree.find('processorCode')
         if processor_code.text.lower() == 'a':
