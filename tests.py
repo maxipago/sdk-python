@@ -323,6 +323,17 @@ class MaxipagoTestCase(unittest.TestCase):
         self.assertFalse(response.authorized)
         self.assertFalse(response.captured)
 
+    def test_http_exception(self):
+        CUSTOMER_ID = randint(1, 100000)
+        customer_manager = self.maxipago.customer
+        customer_manager.uri_api = 'https://testapi.maxipago.net/UniversalAPI/WrongUri'
+        with self.assertRaises(exceptions.HttpErrorException):
+            customer_manager.add(
+                customer_id=CUSTOMER_ID,
+                first_name='Fulano',
+                last_name='de Tal',
+            )
+
 
 if __name__ == '__main__':
     unittest.main()
