@@ -19,7 +19,8 @@ class PaymentResource(Resource):
             raise PaymentException(message=error_message)
 
         processor_code = tree.find('processorCode')
-        if processor_code.text.lower() == 'a':
+
+        if processor_code.text is not None and processor_code.text.lower() == 'a':
             self.approved = True
 
         if self.approved:
