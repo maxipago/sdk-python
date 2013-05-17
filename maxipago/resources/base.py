@@ -7,9 +7,6 @@ class Resource(object):
         self.data = data
         self.requester = requester
         self.manager = manager
-
-        print self.data
-
         self.process()
 
     def process(self):
