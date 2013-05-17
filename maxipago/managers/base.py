@@ -1,5 +1,6 @@
 # coding: utf-8
 import requests
+from maxipago.exceptions import HttpErrorException
 from maxipago.utils import etree, create_element_recursively
 
 
@@ -24,6 +25,9 @@ class Manager(object):
     def request(self, xml_data, api_type=None):
         uri = self.get_uri(api_type)
         response = requests.post(url=uri, data=xml_data, headers={'content-type': 'text/xml'})
+
+        if not str(response.status_code).startswith('2'):
+            raise HttpErrorException(u'Error %s: %s' % (response.status_code, response.reason))
         return response
 
     def get_uri(self, api_type=None):
