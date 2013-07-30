@@ -32,6 +32,8 @@ class PaymentResource(Resource):
             ('orderID', 'order_id'),
             ('referenceNum', 'reference_num'),
             ('transactionTimestamp', 'transaction_timestamp'),
+            ('boletoUrl', 'boleto_url'),
+            ('responseCode', 'response_code'),
         ]
 
         for f_name, f_translated in fields:
@@ -48,3 +50,5 @@ class PaymentResource(Resource):
             elif response_message == 'captured':
                 self.authorized = True
                 self.captured = True
+            elif response_message == 'issued':
+                self.authorized = True
