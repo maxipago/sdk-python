@@ -7,11 +7,12 @@ from maxipago.utils import etree, create_element_recursively
 class Manager(object):
     api_type = None
 
-    def __init__(self, maxid, api_key, api_version, sandbox):
+    def __init__(self, maxid, api_key, api_version, sandbox, secret_key):
         self.maxid = maxid
         self.api_key = api_key
         self.api_version = api_version
         self.sandbox = sandbox
+        self.secret_key = secret_key
 
         if sandbox:
             self.uri_transaction = 'https://testapi.maxipago.net/UniversalAPI/postXML'
