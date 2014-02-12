@@ -1,6 +1,6 @@
 # coding: utf-8
 from urllib import urlencode
-from hashlib import md5
+import hmac
 from maxipago.managers.base import ManagerTransaction
 from maxipago.requesters.payment import PaymentRequester
 from maxipago.resources.payment import PaymentResource
@@ -170,7 +170,7 @@ class PaymentManager(ManagerTransaction):
         params = {
             'm': self.maxid,
             's': requester.cleaned_data.get('order_id'),
-            'h': md5('{0}*{1}'.format(self.maxid, requester.cleaned_data.get('order_id'))).hexdigest()
+            'h': hmac.new(self.secret_key, '{0}*{1}'.format(self.maxid, requester.cleaned_data.get('order_id'))).hexdigest()
         }
 
         url = 'https://testauthentication.maxipago.net/redirection_service/logo?{0}'.format(urlencode(params))
