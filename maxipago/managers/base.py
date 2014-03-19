@@ -72,7 +72,6 @@ class ManagerApi(Manager):
 
         xml_data = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
 
-
         response = self.request(xml_data)
         if resource:
             return resource(data=response.content, requester=requester, manager=self)
@@ -110,6 +109,7 @@ class ManagerTransaction(Manager):
             return requester.data.get('callback', lambda x: x)(resource or response)
 
         self.request(xml_data, callback=lambda resp: callback(resp, resource))
+
 
 class ManagerRapi(Manager):
     api_type = 'rapi'
