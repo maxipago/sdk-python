@@ -31,6 +31,7 @@ setup(
         "Topic :: Utilities",
     ],
     install_requires=[
+        'requests==1.1.0',
         'grequests==0.2.0',
         'lxml==3.1.0',
     ],
