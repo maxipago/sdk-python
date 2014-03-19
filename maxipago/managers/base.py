@@ -1,5 +1,5 @@
 # coding: utf-8
-import requests
+import requests, grequests
 from maxipago.exceptions import HttpErrorException
 from maxipago.utils import etree, create_element_recursively
 
@@ -7,11 +7,12 @@ from maxipago.utils import etree, create_element_recursively
 class Manager(object):
     api_type = None
 
-    def __init__(self, maxid, api_key, api_version, sandbox):
+    def __init__(self, maxid, api_key, api_version, sandbox, async):
         self.maxid = maxid
         self.api_key = api_key
         self.api_version = api_version
         self.sandbox = sandbox
+        self.async = async
 
         if sandbox:
             self.uri_transaction = 'https://testapi.maxipago.net/UniversalAPI/postXML'
@@ -22,13 +23,21 @@ class Manager(object):
             self.uri_api = 'https://api.maxipago.net/UniversalAPI/postAPI'
             self.uri_rapi = 'https://api.maxipago.net/ReportsAPI/servlet/ReportsAPI'
 
-    def request(self, xml_data, api_type=None):
+    def request(self, xml_data, api_type=None, callback=None):
         uri = self.get_uri(api_type)
-        response = requests.post(url=uri, data=xml_data, headers={'content-type': 'text/xml'})
 
-        if not str(response.status_code).startswith('2'):
-            raise HttpErrorException(u'Error %s: %s' % (response.status_code, response.reason))
-        return response
+        def cb_return(response):
+            if callback is None:
+                if not str(response.status_code).startswith('2'):
+                    raise HttpErrorException(u'Error %s: %s' % (response.status_code, response.reason))
+                return response
+            return callback(response)
+
+        if not self.async:
+            response = requests.post(url=uri, data=xml_data, headers={'content-type': 'text/xml'})
+            return cb_return(response)
+        else:
+            grequests.post(url=uri, data=xml_data, headers={'content-type': 'text/xml'}, hooks={'response': cb_return}).send()
 
     def get_uri(self, api_type=None):
         api_type = api_type or self.uri_rapi
@@ -63,6 +72,7 @@ class ManagerApi(Manager):
 
         xml_data = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
 
+
         response = self.request(xml_data)
         if resource:
             return resource(data=response.content, requester=requester, manager=self)
@@ -93,11 +103,13 @@ class ManagerTransaction(Manager):
 
         xml_data = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
 
-        response = self.request(xml_data)
-        if resource:
-            return resource(data=response.content, requester=requester, manager=self)
-        return response
+        def callback(response, resource):
+            if resource:
+                resource = resource(data=response.content, requester=requester, manager=self)
 
+            return requester.data.get('callback', lambda x: x)(resource or response)
+
+        self.request(xml_data, callback=lambda resp: callback(resp, resource))
 
 class ManagerRapi(Manager):
     api_type = 'rapi'
