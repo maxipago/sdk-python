@@ -9,10 +9,7 @@ from random import randint
 
 MAXIPAGO_ID = os.getenv('MAXIPAGO_ID')
 MAXIPAGO_API_KEY = os.getenv('MAXIPAGO_API_KEY')
-if not MAXIPAGO_ID:
-    raise ValueError("You must setup the maxipago id env variable.")
-if not MAXIPAGO_API_KEY:
-    raise ValueError("You must setup the maxipago api key env variable.")
+
 
 class MaxipagoTestCase(unittest.TestCase):
 
