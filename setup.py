@@ -1,37 +1,51 @@
-# coding: utf-8
+# encoding: utf-8
 import re
-import os
-from setuptools import setup
+from codecs import open
+from setuptools import setup, find_packages
+from os import path
+
+HERE = path.abspath(path.dirname(__file__))
 
 
-def read_file(fname):
-    return open(os.path.join(os.path.dirname(__file__), fname)).read()
+def read(*names):
+    with open(path.join(HERE, *names)) as stream:
+        return stream.read()
 
 
-def get_version():
-    meta_filedata = read_file('maxipago/__init__.py')
-    re_version = re.compile(r'VERSION\s*=\s*\((.*?)\)')
-    group = re_version.search(meta_filedata).group(1)
-    version = filter(None, map(lambda s: s.strip(), group.split(',')))
-    return '.'.join(version)
+def find_info(info, *file_paths):
+    content = read(*file_paths)
+    matching = re.search(
+        r'''^__{}__ = ['"]([^'"]*)['"]'''.format(info),
+        content,
+        re.M
+    )
+    if matching:
+        return matching.group(1)
+    raise RuntimeError('Unable to find {} string.'.format(info))
 
+
+LONG_DESCRIPTION = read('README.md')
+VERSION = find_info('version', 'maxipago', '__init__.py')
+AUTHOR = find_info('author', 'maxipago', '__init__.py')
+AUTHOR_EMAIL = find_info('contact', 'maxipago', '__init__.py')
+LICENSE = find_info('license', 'maxipago', '__init__.py')
 
 setup(
     name='maxipago',
-    version=get_version(),
-    author='Stored',
-    author_email='contato@stored.com.br',
+    version=VERSION,
+    author=AUTHOR,
+    author_email=AUTHOR_EMAIL,
     description='',
-    license='MIT',
+    license=LICENSE,
     keywords='',
-    url='',
-    packages=['maxipago'],
-    long_description=read_file('README.md'),
+    url='https://github.com/loggi/Python-integration-lib/',
+    packages=find_packages(),
+    long_description=LONG_DESCRIPTION,
     classifiers=[
         "Topic :: Utilities",
     ],
-    install_requires=[
-        'requests==1.1.0',
-        'lxml==3.1.0',
-    ],
+    install_requires=(
+        'requests==2.4.3',
+        'lxml==3.4.0',
+    ),
 )
