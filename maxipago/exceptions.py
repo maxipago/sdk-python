@@ -2,11 +2,15 @@
 
 
 class MaxipagoException(Exception):
-    def __init__(self, message):
+    def __init__(self, message, code=None):
         self.message = message
+        self.code = code
 
     def __str__(self):
-        return self.message
+        if self.code:
+            return "({}) {}".format(self.code, self.message)
+        else:
+            return self.message
 
 
 class ValidationError(MaxipagoException):

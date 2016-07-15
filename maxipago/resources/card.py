@@ -15,7 +15,7 @@ class CardAddResource(Resource):
         if error_code != '0':
             error_message = tree.find('errorMessage').text
 
-            raise CardException(message=error_message)
+            raise CardException(message=error_message, code=error_code)
 
         self._meta = {
             'command': tree.find('command').text,
@@ -34,7 +34,7 @@ class CardDeleteResource(Resource):
         if error_code != '0':
             error_message = tree.find('errorMessage').text
 
-            raise CardException(message=error_message)
+            raise CardException(message=error_message, code=error_code)
 
         self._meta = {
             'command': tree.find('command').text,
