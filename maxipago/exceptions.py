@@ -8,7 +8,7 @@ class MaxipagoException(Exception):
 
     def __str__(self):
         if self.code:
-            return "({}) {}".format(self.code, self.message)
+            return u"({}) {}".format(self.code, self.message)
         else:
             return self.message
 
