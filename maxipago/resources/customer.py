@@ -16,9 +16,10 @@ class CustomerAddResource(Resource):
             error_message = tree.find('errorMessage').text
 
             if 'already exists' in error_message.lower():
-                raise CustomerAlreadyExists(message=error_message)
+                raise CustomerAlreadyExists(message=error_message,
+                                            code=error_code)
 
-            raise CustomerException(message=error_message)
+            raise CustomerException(message=error_message, code=error_code)
 
         self._meta = {
             'command': tree.find('command').text,
@@ -38,7 +39,7 @@ class CustomerDeleteResource(Resource):
         if error_code != '0':
             error_message = tree.find('errorMessage').text
 
-            raise CustomerException(message=error_message)
+            raise CustomerException(message=error_message, code=error_code)
 
         self._meta = {
             'command': tree.find('command').text,
@@ -58,7 +59,7 @@ class CustomerUpdateResource(Resource):
         if error_code != '0':
             error_message = tree.find('errorMessage').text
 
-            raise CustomerException(message=error_message)
+            raise CustomerException(message=error_message, code=error_code)
 
         self._meta = {
             'command': tree.find('command').text,
