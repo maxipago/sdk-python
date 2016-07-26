@@ -27,7 +27,10 @@ class Manager(object):
         response = requests.post(url=uri, data=xml_data, headers={'content-type': 'text/xml'})
 
         if not str(response.status_code).startswith('2'):
-            raise HttpErrorException(u'Error %s: %s' % (response.status_code, response.reason))
+            raise HttpErrorException(
+                u'Error %s: %s' % (response.status_code, response.reason),
+                code=response.status_code
+            )
         return response
 
     def get_uri(self, api_type=None):

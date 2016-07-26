@@ -40,12 +40,13 @@ class MaxipagoTestCase(unittest.TestCase):
         self.assertTrue(hasattr(response, 'id'))
 
         # creating customer with the same id.
-        with self.assertRaises(exceptions.CustomerAlreadyExists):
+        with self.assertRaises(exceptions.CustomerAlreadyExists) as exc:
             response = self.maxipago.customer.add(
                 customer_id=CUSTOMER_ID,
                 first_name='Fulano',
                 last_name='de Tal',
             )
+        self.assertEqual(exc.exception.code, '1')
 
     def test_delete_customer(self):
         CUSTOMER_ID = randint(1, 100000)
@@ -111,6 +112,64 @@ class MaxipagoTestCase(unittest.TestCase):
             billing_country=u'BR',
             billing_phone=u'552140634666',
             billing_email=u'fulano@detal.com',
+        )
+
+        self.assertTrue(getattr(response, 'token', False))
+
+    def test_add_existent_card(self):
+        CUSTOMER_ID = randint(1, 100000)
+
+        response = self.maxipago.customer.add(
+            customer_id=CUSTOMER_ID,
+            first_name=u'Fulano',
+            last_name=u'de Tal',
+        )
+
+        self.assertTrue(hasattr(response, 'id'))
+
+        maxipago_customer_id = response.id
+
+        add_card_kwargs = dict(
+            customer_id=maxipago_customer_id,
+            number=u'4111111111111111',
+            expiration_month=u'02',
+            expiration_year=date.today().year + 3,
+            billing_name=u'Fulano de Tal',
+            billing_address1=u'Rua das Alamedas, 123',
+            billing_city=u'Rio de Janeiro',
+            billing_state=u'RJ',
+            billing_zip=u'20123456',
+            billing_country=u'BR',
+            billing_phone=u'552140634666',
+            billing_email=u'fulano@detal.com'
+        )
+        response = self.maxipago.card.add(**add_card_kwargs)
+        self.assertTrue(getattr(response, 'token', False))
+
+        with self.assertRaises(exceptions.CardException) as exc:
+            self.maxipago.card.add(**add_card_kwargs)
+
+        self.assertEqual(exc.exception.code, '1')
+
+    def test_add_card_minimal_fields(self):
+        CUSTOMER_ID = randint(1, 100000)
+
+        response = self.maxipago.customer.add(
+            customer_id=CUSTOMER_ID,
+            first_name=u'Fulano',
+            last_name=u'de Tal',
+        )
+
+        self.assertTrue(hasattr(response, 'id'))
+
+        maxipago_customer_id = response.id
+
+        response = self.maxipago.card.add(
+            customer_id=maxipago_customer_id,
+            number=u'4111111111111111',
+            expiration_month=u'02',
+            expiration_year=date.today().year + 3,
+            billing_name=u'Fulano de Tal',
         )
 
         self.assertTrue(getattr(response, 'token', False))
