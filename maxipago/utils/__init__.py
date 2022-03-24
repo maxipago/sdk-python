@@ -1,1 +1,1 @@
-from xml import *
+from .xml import *

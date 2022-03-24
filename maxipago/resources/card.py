@@ -1,5 +1,5 @@
 # coding: utf-8
-from StringIO import StringIO
+# from StringIO import StringIO
 from maxipago.utils import etree
 from maxipago.resources.base import Resource
 from maxipago.exceptions import CardException
@@ -8,7 +8,7 @@ from maxipago.exceptions import CardException
 class CardAddResource(Resource):
 
     def process(self):
-        tree = etree.parse(StringIO(self.data))
+        tree = etree.fromstring(self.data)
 
         error_code = tree.find('errorCode').text
 
@@ -27,7 +27,7 @@ class CardAddResource(Resource):
 
 class CardDeleteResource(Resource):
     def process(self):
-        tree = etree.parse(StringIO(self.data))
+        tree = etree.fromstring(self.data)
 
         error_code = tree.find('errorCode').text
 

@@ -117,9 +117,10 @@ class ManagerRapi(Manager):
         etree.SubElement(root, 'command').text = command
 
         request = etree.SubElement(root, 'request')
+        options = etree.SubElement(request, 'filterOptions')
 
         for key, value in params:
-            create_element_recursively(request, key).text = value
+            create_element_recursively(options, key).text = value
 
         xml_data = etree.tostring(root, pretty_print=True, encoding='UTF-8', xml_declaration=True)
 

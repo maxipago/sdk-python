@@ -1,5 +1,5 @@
 # coding: utf-8
-from urllib import urlencode
+from urllib.parse import urlencode
 from hashlib import md5
 from maxipago.managers.base import ManagerTransaction
 from maxipago.requesters.payment import PaymentRequester

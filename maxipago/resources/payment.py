@@ -1,5 +1,5 @@
 # coding: utf-8
-from StringIO import StringIO
+# from io import StringIO
 from maxipago.utils import etree
 from maxipago.resources.base import Resource
 from maxipago.exceptions import PaymentException
@@ -12,7 +12,7 @@ class PaymentResource(Resource):
         self.authorized = False
         self.captured = False
 
-        tree = etree.parse(StringIO(self.data))
+        tree = etree.fromstring(self.data)
         error_code = tree.find('errorCode')
         if error_code is not None and error_code.text != '0':
             error_message = tree.find('errorMsg').text
