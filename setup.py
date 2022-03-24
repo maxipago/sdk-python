@@ -25,13 +25,17 @@ setup(
     license='MIT',
     keywords='',
     url='',
-    packages=['maxipago'],
+    packages=['maxipago',
+              'maxipago.managers',
+              'maxipago.managers.payment',
+              'maxipago.requesters',
+              'maxipago.requesters.payment',
+              'maxipago.resources',
+              'maxipago.utils'],
     long_description=read_file('README.md'),
     classifiers=[
         "Topic :: Utilities",
     ],
     install_requires=[
-        'requests==1.1.0',
-        'lxml==3.1.0',
     ],
 )

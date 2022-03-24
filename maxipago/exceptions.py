@@ -31,6 +31,10 @@ class PaymentException(MaxipagoException):
     pass
 
 
-#http
+class TransactionException(MaxipagoException):
+    pass
+
+
+# http
 class HttpErrorException(MaxipagoException):
     pass

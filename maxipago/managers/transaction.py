@@ -1,6 +1,8 @@
 # coding: utf-8
 from maxipago.managers.base import ManagerRapi
 from maxipago.requesters.transaction import TransactionRequester
+from maxipago.resources.payment import PaymentResource
+from maxipago.resources.transaction import TransactionResource
 
 
 class TransactionManager(ManagerRapi):
@@ -10,7 +12,7 @@ class TransactionManager(ManagerRapi):
             ('transaction_id', {'translated_name': 'transactionId'}),
         )
         requester = TransactionRequester(fields, kwargs)
-        return self.send(command='transactionDetailReport', requester=requester)
+        return self.send(command='transactionDetailReport', requester=requester, resource=TransactionResource)
 
     def list(self, **kwargs):
         fields = (

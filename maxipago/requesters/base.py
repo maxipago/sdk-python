@@ -1,4 +1,5 @@
 # coding: utf-8
+from lxml.builder import unicode
 from maxipago.exceptions import ValidationError
 
 
